@@ -18,12 +18,12 @@ RUN curl -sL https://deb.nodesource.com/setup_10.x | bash && \
     wget \
  && rm -rf /var/lib/apt/lists/*
 
-RUN wget --quiet https://github.com/progrium/entrykit/releases/download/v0.4.0/entrykit_0.4.0_Linux_x86_64.tgz \
- && tar -xvzf entrykit_0.4.0_Linux_x86_64.tgz \
- && rm entrykit_0.4.0_Linux_x86_64.tgz \
- && mv entrykit /bin/entrykit \
- && chmod +x /bin/entrykit \
- && entrykit --symlink
+# RUN wget --quiet https://github.com/progrium/entrykit/releases/download/v0.4.0/entrykit_0.4.0_Linux_x86_64.tgz \
+#  && tar -xvzf entrykit_0.4.0_Linux_x86_64.tgz \
+#  && rm entrykit_0.4.0_Linux_x86_64.tgz \
+#  && mv entrykit /bin/entrykit \
+#  && chmod +x /bin/entrykit \
+#  && entrykit --symlink
 
 RUN mkdir -p ${APP_ROOT}
 
@@ -32,8 +32,17 @@ RUN mkdir -p ${APP_ROOT}
 # commands.
 WORKDIR ${APP_ROOT}
 
-ENTRYPOINT [ \
-  "prehook", "ruby -v", "--", \
-  "prehook", "node -v", "--", \
-  "prehook", "npm  -v", "--", \
-  "prehook", "bundle install -j3 --quiet --retry 5", "--" ]
+# Add the Gemfile as well as the Gemfile.lock
+# Add the package.json as well as the package.lock.json
+COPY Gemfile* ${APP_ROOT}/
+
+# Install RubyGems and NodeModules
+RUN bundle install -j "$(getconf _NPROCESSORS_ONLN)" --retry 5 && npm install
+
+COPY . ${APP_ROOT}
+
+# ENTRYPOINT [ \
+#   "prehook", "ruby -v", "--", \
+#   "prehook", "node -v", "--", \
+#   "prehook", "npm  -v", "--", \
+#   "prehook", "bundle install -j3 --quiet --retry 5", "--" ]
