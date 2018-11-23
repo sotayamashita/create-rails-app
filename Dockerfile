@@ -3,7 +3,7 @@ FROM ruby:2.5
 # Configure locals
 ENV LANG C.UTF-8
 # Set app name
-ENV APP_ROOT /app
+ENV APP_ROOT /myapp
 
 # For essential
 RUN curl -sL https://deb.nodesource.com/setup_10.x | bash && \
