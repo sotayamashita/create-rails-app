@@ -14,10 +14,14 @@ cp -f template/database.yml config/database.yml
 docker-compose run web rake db:create
 ```
 
+```
+docker-compose run --rm web rails new . --force --skip-bundle --skip-test --skip-yarn --skip-coffee --database=postgresql
+```
+
 API mode:
 
 ```
-docker-compose run --rm web rails new . --force --skip-bundle --skip-test --api
+docker-compose run --rm web rails new . --force --skip-bundle --skip-test --skip-yarn --api
 ```
 
 
