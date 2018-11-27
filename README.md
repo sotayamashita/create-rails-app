@@ -2,6 +2,10 @@
 
 ## Installation
 
+
+
+Normal mode:
+
 ```bash
 git clone git@github.com:sotayamashita/create-rails-app.git
 cd create-rails-app
@@ -9,6 +13,13 @@ docker-compose run --rm web rails new . -d postgresql --skip-coffee -T -B -f
 cp -f template/database.yml config/database.yml
 docker-compose run web rake db:create
 ```
+
+API mode:
+
+```
+docker-compose run --rm web rails new . --force --skip-bundle --skip-test --api
+```
+
 
 ## Miscellaneous
 
