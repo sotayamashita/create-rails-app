@@ -15,6 +15,7 @@ Using Rails for following mode:
 # Using Rails for normal:
 $ docker-compose run --rm web rails new . --force --skip-bundle --skip-test --skip-yarn --skip-coffee --database=postgresql
 $ cp -f template/database.yml config/database.yml
+$ docker-compose run --rm web rake db:create
 ```
 
 or
