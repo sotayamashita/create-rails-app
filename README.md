@@ -14,7 +14,7 @@ Using Rails for following mode:
 ```bash
 # Using Rails for normal:
 $ docker-compose run --rm web rails new . --force --skip-bundle --skip-test --skip-yarn --skip-coffee --database=postgresql
-$ cp -f template/database.yml config/database.yml
+$ cp -f templates/database.yml config/database.yml
 $ docker-compose run --rm web rake db:create
 ```
 
@@ -23,7 +23,7 @@ or
 ```bash
 # Using Rails for API-only:
 $ docker-compose run --rm web rails new . --force --skip-bundle --skip-test --skip-yarn --api
-$ rm template/database.yml
+$ rm templates/database.yml
 ```
 
 
