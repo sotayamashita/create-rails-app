@@ -2,26 +2,27 @@
 
 ## Installation
 
-
-
-Normal mode:
-
-```bash
-git clone git@github.com:sotayamashita/create-rails-app.git
-cd create-rails-app
-docker-compose run --rm web rails new . -d postgresql --skip-coffee -T -B -f
-cp -f template/database.yml config/database.yml
-docker-compose run web rake db:create
-```
+Clone:
 
 ```
-docker-compose run --rm web rails new . --force --skip-bundle --skip-test --skip-yarn --skip-coffee --database=postgresql
+$ git clone --depth=1 git@github.com:sotayamashita/create-rails-app.git
+$ cd create-rails-app
 ```
 
-API mode:
+Using Rails for following mode:
 
 ```
-docker-compose run --rm web rails new . --force --skip-bundle --skip-test --skip-yarn --api
+# Using Rails for normal:
+$ docker-compose run --rm web rails new . --force --skip-bundle --skip-test --skip-yarn --skip-coffee --database=postgresql
+$ cp -f template/database.yml config/database.yml
+```
+
+or
+
+```
+# Using Rails for API-only:
+$ docker-compose run --rm web rails new . --force --skip-bundle --skip-test --skip-yarn --api
+$ rm template/database.yml
 ```
 
 
