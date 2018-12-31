@@ -4,14 +4,14 @@
 
 Clone:
 
-```
+```bash
 $ git clone --depth=1 git@github.com:sotayamashita/create-rails-app.git
 $ cd create-rails-app
 ```
 
 Using Rails for following mode:
 
-```
+```bash
 # Using Rails for normal:
 $ docker-compose run --rm web rails new . --force --skip-bundle --skip-test --skip-yarn --skip-coffee --database=postgresql
 $ cp -f template/database.yml config/database.yml
@@ -19,7 +19,7 @@ $ cp -f template/database.yml config/database.yml
 
 or
 
-```
+```bash
 # Using Rails for API-only:
 $ docker-compose run --rm web rails new . --force --skip-bundle --skip-test --skip-yarn --api
 $ rm template/database.yml
