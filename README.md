@@ -47,6 +47,18 @@ $ rm templates/database.yml
       TINY  = 1
     ```
 
+## Cheat sheet
+
+### Routing
+
+|   | URL | Directory |
+|---|---|---|
+| namespace("<name>") | ○ | ○ |
+| scope(module: "<name>")  | ☓ | ○ |
+| scope("<name>") | ○ | ☓ |
+
+- https://guides.rubyonrails.org/routing.html
+
 ## License
 
 Create Rails App © Sam Yamashita. Released under the [MIT](LICENSE)<br/>
