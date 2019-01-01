@@ -51,11 +51,11 @@ $ rm templates/database.yml
 
 ### Routing
 
-|   | URL | Directory |
+|   | Add a path? | Add a directory? |
 |---|---|---|
-| namespace("<name>") | ○ | ○ |
-| scope(module: "<name>")  | ☓ | ○ |
-| scope("<name>") | ○ | ☓ |
+| namespace("") | ○ | ○ |
+| scope(module: "")  | ☓ | ○ |
+| scope("") | ○ | ☓ |
 
 - https://guides.rubyonrails.org/routing.html
 
