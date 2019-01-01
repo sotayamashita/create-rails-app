@@ -49,7 +49,9 @@ $ rm templates/database.yml
 
 ## Cheat sheet
 
-### Routing
+### General
+
+#### Routing
 
 |   | Add a path? | Add a directory? |
 |---|---|---|
@@ -58,6 +60,8 @@ $ rm templates/database.yml
 | scope("") | ○ | ☓ |
 
 - https://guides.rubyonrails.org/routing.html
+
+### More specific
 
 ## License
 
