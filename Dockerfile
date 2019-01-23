@@ -3,10 +3,10 @@ FROM ruby:2.5
 # Configure locals
 ENV LANG C.UTF-8
 # Set app name
-ENV APP_ROOT /myapp
+ENV APP_ROOT /app
 
 # For essential
-RUN curl -sL https://deb.nodesource.com/setup_10.x | bash && \
+RUN curl -sSL https://deb.nodesource.com/setup_10.x | bash && \
     apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     libpq-dev \
@@ -18,31 +18,27 @@ RUN curl -sL https://deb.nodesource.com/setup_10.x | bash && \
     wget \
  && rm -rf /var/lib/apt/lists/*
 
-# RUN wget --quiet https://github.com/progrium/entrykit/releases/download/v0.4.0/entrykit_0.4.0_Linux_x86_64.tgz \
-#  && tar -xvzf entrykit_0.4.0_Linux_x86_64.tgz \
-#  && rm entrykit_0.4.0_Linux_x86_64.tgz \
-#  && mv entrykit /bin/entrykit \
-#  && chmod +x /bin/entrykit \
-#  && entrykit --symlink
+# For tini
+ENV TINI_VERSION v0.18.0
+ENV TINI_GPG_KEY 595E85A6B1B4779EA4DAAEC70B588DFF0527A9B7
+
+RUN cd /tmp && \
+  curl -sSL https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini.asc -o tini.asc && \
+  curl -sSL https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini -o /usr/local/bin/tini && \
+  gpg --batch --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys ${TINI_GPG_KEY} && \
+  gpg --verify tini.asc /usr/local/bin/tini && \
+  chmod +x /usr/local/bin/tini && \
+  rm tini.asc
 
 RUN mkdir -p ${APP_ROOT}
+
+COPY rootfs /
 
 # Configure the main working directory. This is the base
 # directory used in any further RUN, COPY, and ENTRYPOINT
 # commands.
 WORKDIR ${APP_ROOT}
 
-# Add the Gemfile as well as the Gemfile.lock
-# Add the package.json as well as the package.lock.json
-COPY Gemfile* ${APP_ROOT}/
-
-# Install RubyGems and NodeModules
-RUN bundle install -j "$(getconf _NPROCESSORS_ONLN)" --retry 5 && npm install
-
-COPY . ${APP_ROOT}
-
-# ENTRYPOINT [ \
-#   "prehook", "ruby -v", "--", \
-#   "prehook", "node -v", "--", \
-#   "prehook", "npm  -v", "--", \
-#   "prehook", "bundle install -j3 --quiet --retry 5", "--" ]
+EXPOSE 3000
+ENTRYPOINT [ "/app-entrypoint.sh" ]
+CMD [ "bundle", "exec", "rails", "server", "-p", "3000", "-b", "0.0.0.0" ]

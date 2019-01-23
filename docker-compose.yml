@@ -3,30 +3,16 @@ services:
   db:
     image: postgres
 
-  redis:
-    image: redis
-
   web:
-    build: .
     # Enable sending signals (CTRL+C, CTRL+P + CTRL+Q) into the container:
     tty: true
     # Keep the stdin open, so we can attach to our app container's process and do things such as byebug, etc:
     stdin_open: true
-    command:
-      - /bin/sh
-      - -c
-      - |
-        bundle check || bundle install
-        if [ -f tmp/pids/server.pid ]; then
-          rm -f tmp/pids/server.pid
-        fi
-        bundle exec rails s -p 3000 -b 0.0.0.0
+    image: samyamashita/create-rails-app:5
     volumes:
-      - .:/myapp
+      - .:/app
     ports:
       - "3000:3000"
     depends_on:
       - db
       - redis
-    environment:
-      - REDIS_URL=redis://redis:6379
