@@ -1,7 +1,17 @@
+
+
 ```
 docker-compose run web rails new . --force --skip-bundle --skip-yarn --skip-coffee --no-deps --database=postgresql
 docker-compose build
 ```
+
+## Deployment
+
+### on Elastic Beanstalk (web tier)
+
+
+
+---
 
 
 # create-rails-app
