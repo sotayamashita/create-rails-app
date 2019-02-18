@@ -9,6 +9,9 @@ docker-compose build
 
 ### on Elastic Beanstalk (web tier)
 
+**Database connection**
+
+https://docs.aws.amazon.com/ja_jp/elasticbeanstalk/latest/dg/AWSHowTo.RDS.html
 
 
 ---
