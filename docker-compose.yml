@@ -3,7 +3,7 @@ services:
   db:
     image: postgres:11.1-alpine
     volumes:
-      - ./tmp/db:/var/lib/postgresql/data
+      - ./tmp/srv/app/db:/var/lib/postgresql/data
 
   web:
     build:
