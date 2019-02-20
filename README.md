@@ -33,18 +33,27 @@ $ docker-compose exec <service> <command>
 
 ### Sidekiq
 
-```yaml
+```diff
 version: '3'
 services:
   ...
-  redis:
-    image: redis
++  redis:
++    image: redis:5.0-alpine
++    restart: always
++    volumes:
++      - ./tmp/redis:/var/lib/redis
 
-  worker:
-    build: .
-    command: bundle exec sidekiq -C config/sidekiq.yml -e development
-    depends_on:
-      - redis
++  worker:
++    build: .
++    restart: always
++    command: bundle exec sidekiq -C config/sidekiq.yml -e development
++    volumnes:
++      - .:/app
++    depends_on:
++      - db
++      - redis
++    environment:
++      - REDIS_URL=redis://redis:6379
 ```
 
 ## References
