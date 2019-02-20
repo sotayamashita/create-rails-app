@@ -41,7 +41,7 @@ services:
 +    image: redis:5.0-alpine
 +    restart: always
 +    volumes:
-+      - ./tmp/redis:/var/lib/redis
++      - ./tmp/srv/app/redis:/var/lib/redis
 
 +  worker:
 +    build: .
