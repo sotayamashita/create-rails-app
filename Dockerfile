@@ -19,9 +19,6 @@ RUN bundle install -j "$(getconf _NPROCESSORS_ONLN)" --retry 5 \
     && find /usr/local/bundle/gems/ -name "*.c" -delete \
     && find /usr/local/bundle/gems/ -name "*.o" -delete
 
-# Add a script to be executed every time the container starts.
-COPY rootfs /
-ENTRYPOINT ["/entrypoint.sh"]
 EXPOSE 3000
 
 # Start the main process.
