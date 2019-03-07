@@ -1,14 +1,14 @@
-version: '3'
+version: '3.4'
 services:
   db:
-    image: postgres:11.1-alpine
+    image: postgres:alpine
     volumes:
       - ./tmp/srv/app/db:/var/lib/postgresql/data
 
-  web:
+  app: &app_base
     build:
       context: .
-      dockerfile: Dockerfile-dev
+      dockerfile: Dockerfile
     # Enable sending signals (CTRL+C, CTRL+P + CTRL+Q) into the container:
     tty: true
     # Keep the stdin open, so we can attach to our app container's process and do things such as byebug, etc:
@@ -25,5 +25,5 @@ services:
       - .:/app
     ports:
       - 3000:3000
-    depends_on:
+    links:
       - db
