@@ -1,2 +1,2 @@
 app: bin/rails server
-webpack: bin/webpack-dev-server
+webpack: node_modules/.bin/webpack-dev-server
