@@ -1,0 +1,51 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/app
+    docker:
+      - image: circleci/ruby:2.6.1-node
+        environment:
+          PGHOST: localhost
+          PGUSER: postgres
+          RAILS_ENV: test
+          RAILS_MASTER_KEY: $RAILS_MASTER_KEY
+      - image: postgres:9.5
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: app_test
+          POSTGRES_PASSWORD: ""
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - gem-cache-v1-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+            - gem-cache-v1-{{ arch }}-{{ .Branch }}
+            - gem-cache-v1
+
+      # Bundle install dependencies
+      - run: bundle install --path vendor/bundle -j "$(getconf _NPROCESSORS_ONLN)"
+
+      - save_cache:
+          key: gem-cache-v1-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+
+      # Run the code analyser
+      - run: bundle exec rubocop
+
+      # Wait for DB
+      - run: dockerize -wait tcp://localhost:5432 -timeout 1m
+
+      # Setup the database
+      - run: bundle exec rails db:setup
+
+      # Run the tests
+      - run: bundle exec rspec
+
+workflows:
+  version: 2
+  build:
+    jobs:
+    - build
