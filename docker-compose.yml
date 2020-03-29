@@ -1,0 +1,38 @@
+version: '3'
+services:
+  db:
+    image: postgres:alpine
+    volumes:
+      - ./tmp/db:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        RUBY_VERSION: '2.6.5-alpine3.10'
+        BUNDLER_VERSION: '2.0.2'
+    # Enable sending signals (CTRL+C, CTRL+P + CTRL+Q) into the container:
+    tty: true
+    # Keep the stdin open, so we can attach to our app container's process and do things such as byebug, etc:
+    stdin_open: true
+    command: rm -f /usr/src/app/tmp/pids/server.pid && bundle exec rails server -b 0.0.0.0 -p 3000
+    volumes:
+      - .:/usr/src/app:cached
+      - rails_cache:/usr/src/app/tmp/cache
+      - bundle_cache:/usr/local/bundle
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+    environment:
+      - RAILS_ENV=${RAILS_ENV:-development}
+      - DATABASE_URL=postgres://postgres:postgres@postgres:5432
+    tmpfs:
+      - /tmp
+
+volumes:
+  rails_cache:
+  bundle_cache:
