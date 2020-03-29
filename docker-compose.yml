@@ -1,9 +1,9 @@
 version: '3'
 services:
-  db:
+  postgres:
     image: postgres:alpine
     volumes:
-      - ./tmp/db:/var/lib/postgresql/data
+      - ./tmp/postgres:/var/lib/postgresql/data
     ports:
       - 5432:5432
 
@@ -26,7 +26,7 @@ services:
     ports:
       - 3000:3000
     depends_on:
-      - db
+      - postgres
     environment:
       - RAILS_ENV=${RAILS_ENV:-development}
       - DATABASE_URL=postgres://postgres:postgres@postgres:5432
