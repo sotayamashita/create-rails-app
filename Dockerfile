@@ -11,7 +11,7 @@ RUN apk update -qq \
     # See: https://github.com/gliderlabs/docker-alpine/blob/master/docs/usage.md#disabling-cache
     && apk add --no-cache build-base $(cat /tmp/Apkfile | xargs) \
     # Prevent bundler warnings `ensure that the bundler version executed is >= that which created Gemfile.lock`
-    && gem update --system && gem install bundler:$BUNDLER_VERSION
+    && gem update --system && gem install bundler:${BUNDLER_VERSION}
 
 # Define working directory
 WORKDIR ${ROOT}
